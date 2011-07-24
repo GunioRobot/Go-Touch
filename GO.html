@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html>
+<head><title>GO</title>
+<style type="text/css">
+canvas { border: 1px solid white; }
+body { background-color: black; }
+</style>
+<script type="text/javascript">
+
+var canvas;
+var ctx;
+var canvas0;
+var ctx0;
+var w = 1024;
+var h = 768;
+var yellow = "rgba(255, 255, 0, 0.8)";
+var blue = "rgba(0, 180, 255, 0.8)";
+var white = "rgba(255, 255, 255, 0.8)";
+var black = "rgba(0, 0, 0, 1)";
+var green = "rgba(0, 255, 0, 0.3)";
+var red = "rgba(255, 0, 0, 0.8)";
+var grey = "rgba(255, 255, 255, 0.3)";
+var color = blue;
+var mode = "circle";
+
+function tuio_object_add(sid, fid, x, y, a) {
+}
+
+function tuio_object_update(sid, fid, x, y, a) {
+}
+
+function tuio_object_remove(sid, fid, x, y, a) {
+}
+
+function tuio_cursor_add(sid, fid, x, y) {
+}
+
+function tuio_cursor_update(sid, fid, x, y) {
+	var px = x * w;
+	var py = y * h;
+
+	if (px < 900) {	
+		move(px, py);
+	}
+	
+	if (px > 940 && px < 985 && py > 10 && py < 85) {
+		color = yellow;
+		mode = "circle";
+
+	}
+
+	if (px > 940 && px < 985 && py > 105 && py < 180) {
+		color = blue;
+		mode = "circle";
+		
+	} 
+	
+	if (px > 940 && px < 985 && py > 580 && py < 655) {
+		ol();
+		mode = "circle";		
+	} 
+
+/*	if (px > 940 && px < 985 && py > 295 && py < 370) {
+		color = black;
+		mode = "circle";		
+	} */
+	
+	if (px > 940 && px < 985 && py > 390 && py < 465) {
+		mode = "cross";
+	} 
+	
+}
+
+function tuio_cursor_remove(sid, fid, x, y) {
+}
+
+function tuio_callback(type, sid, fid, x, y, a) {
+	if (type == 0) {
+		tuio_object_add(sid, fid, x, y, a);
+	}
+	else if (type == 1) {
+		tuio_object_update(sid, fid, x, y, a);
+	}
+	else if (type == 2) {
+		tuio_object_remove(sid, fid, x, y, a);
+	}
+	else if (type == 3) {
+		tuio_cursor_add(sid, fid, x, y);
+	}
+	else if (type == 4) {
+		tuio_cursor_update(sid, fid, x, y);
+	}
+	else if (type == 5) {
+		tuio_cursor_remove(sid, fid, x, y);
+	}
+}
+
+function move(px, py) {
+	px = px/100;
+	py = py/100;
+	px = Math.round(px);
+	py = Math.round(py);
+	px = px*100;
+	py = py*100;
+	
+	if (mode == "circle") {
+		circle(px, py);
+	} else {
+		cross(px, py);
+	}
+}
+
+function circle(px, py) {
+	ctx.beginPath();
+	ctx.fillStyle = color; 
+	ctx.strokeStyle = color; 
+	ctx.lineWidth = "4";
+	ctx.arc(px, py, 30, 0, Math.PI*2, false);
+	ctx.fill;
+	ctx.stroke();
+	ctx.closePath();
+	var snd = new Audio("chirp.mp3");
+	snd.play();
+}
+
+function cross(px, py) {
+	ctx.beginPath();
+	ctx.strokeStyle = red;
+	ctx.lineWidth = 4;
+	ctx.moveTo(px-25, py-25);
+	ctx.lineTo(px+25, py+25);
+	ctx.moveTo(px-25, py+25);
+	ctx.lineTo(px+25, py-25);
+	ctx.stroke();
+	ctx.clossePath();
+}
+
+function ol() {
+	canvas = document.getElementById('c');
+	ctx = canvas.getContext('2d');
+	
+	/* Control Buttons */
+	
+	ctx.fillStyle = black;
+	ctx.lineWidth = 4;
+	ctx.fillRect (0, 0, 1024, 768); 
+	
+	ctx.fillStyle = yellow;
+	ctx.lineWidth = 4;
+	ctx.fillRect (940, 10, 40, 75); 
+	
+	ctx.fillStyle = blue;
+	ctx.lineWidth = 4;
+	ctx.fillRect (940, 105, 40, 75);
+	
+	ctx.fillStyle = white;
+	ctx.strokeStyle = black;
+	ctx.lineWidth = 4;
+	ctx.fillRect (940, 580, 40, 75);	
+	
+/*	ctx.fillStyle = black;
+	ctx.strokeStyle = white;
+	ctx.lineWidth = 4;
+	ctx.fillRect (940, 295, 40, 75);
+	ctx.strokeRect (940, 295, 40, 75); */
+	
+	ctx.fillStyle = red;
+	ctx.strokeStyle = white;
+	ctx.lineWidth = 4;
+	ctx.fillRect (940, 390, 40, 75);
+	
+	for (var y = 0; y < 800; y += 100) {
+		for (var x = 100; x < 900; x += 100) {
+  			ctx.strokeStyle = grey; 
+  			ctx.lineWidth = "4";
+			ctx.strokeRect(x,  y, 100, 100);
+		}
+	}
+	
+	for (var y = 0; y < 900; y += 100) {
+		for (var x = 100; x < 1000; x += 100) {
+			ctx.beginPath();
+			ctx.strokeStyle = "rgba(255, 255, 255, 0.4)"; 
+			ctx.lineWidth = "4";
+			ctx.arc(x, y, 30, 0, Math.PI*2, false);
+			ctx.fill;
+			ctx.stroke();
+			ctx.closePath();
+			}
+	}
+}
+
+</script>
+</head>
+<body onload="ol()">
+	
+<canvas id="c" width="1024" height="768" style="top:0px; left:0px; width: 1024px; height: 768px; z-index: 1;"></canvas>
+<object id="tuio" type="application/x-tuio">Plugin FAILED to load</object>
+
+</body>
+</html>
