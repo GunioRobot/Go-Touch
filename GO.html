@@ -39,10 +39,10 @@ function tuio_cursor_update(sid, fid, x, y) {
 	var px = x * w;
 	var py = y * h;
 
-	if (px < 900) {	
+	if (px < 900) {
 		move(px, py);
 	}
-	
+
 	if (px > 940 && px < 985 && py > 10 && py < 85) {
 		color = yellow;
 		mode = "circle";
@@ -52,23 +52,23 @@ function tuio_cursor_update(sid, fid, x, y) {
 	if (px > 940 && px < 985 && py > 105 && py < 180) {
 		color = blue;
 		mode = "circle";
-		
-	} 
-	
+
+	}
+
 	if (px > 940 && px < 985 && py > 580 && py < 655) {
 		ol();
-		mode = "circle";		
-	} 
+		mode = "circle";
+	}
 
 /*	if (px > 940 && px < 985 && py > 295 && py < 370) {
 		color = black;
-		mode = "circle";		
+		mode = "circle";
 	} */
-	
+
 	if (px > 940 && px < 985 && py > 390 && py < 465) {
 		mode = "cross";
-	} 
-	
+	}
+
 }
 
 function tuio_cursor_remove(sid, fid, x, y) {
@@ -102,7 +102,7 @@ function move(px, py) {
 	py = Math.round(py);
 	px = px*100;
 	py = py*100;
-	
+
 	if (mode == "circle") {
 		circle(px, py);
 	} else {
@@ -112,8 +112,8 @@ function move(px, py) {
 
 function circle(px, py) {
 	ctx.beginPath();
-	ctx.fillStyle = color; 
-	ctx.strokeStyle = color; 
+	ctx.fillStyle = color;
+	ctx.strokeStyle = color;
 	ctx.lineWidth = "4";
 	ctx.arc(px, py, 30, 0, Math.PI*2, false);
 	ctx.fill;
@@ -138,49 +138,49 @@ function cross(px, py) {
 function ol() {
 	canvas = document.getElementById('c');
 	ctx = canvas.getContext('2d');
-	
+
 	/* Control Buttons */
-	
+
 	ctx.fillStyle = black;
 	ctx.lineWidth = 4;
-	ctx.fillRect (0, 0, 1024, 768); 
-	
+	ctx.fillRect (0, 0, 1024, 768);
+
 	ctx.fillStyle = yellow;
 	ctx.lineWidth = 4;
-	ctx.fillRect (940, 10, 40, 75); 
-	
+	ctx.fillRect (940, 10, 40, 75);
+
 	ctx.fillStyle = blue;
 	ctx.lineWidth = 4;
 	ctx.fillRect (940, 105, 40, 75);
-	
+
 	ctx.fillStyle = white;
 	ctx.strokeStyle = black;
 	ctx.lineWidth = 4;
-	ctx.fillRect (940, 580, 40, 75);	
-	
+	ctx.fillRect (940, 580, 40, 75);
+
 /*	ctx.fillStyle = black;
 	ctx.strokeStyle = white;
 	ctx.lineWidth = 4;
 	ctx.fillRect (940, 295, 40, 75);
 	ctx.strokeRect (940, 295, 40, 75); */
-	
+
 	ctx.fillStyle = red;
 	ctx.strokeStyle = white;
 	ctx.lineWidth = 4;
 	ctx.fillRect (940, 390, 40, 75);
-	
+
 	for (var y = 0; y < 800; y += 100) {
 		for (var x = 100; x < 900; x += 100) {
-  			ctx.strokeStyle = grey; 
+  			ctx.strokeStyle = grey;
   			ctx.lineWidth = "4";
 			ctx.strokeRect(x,  y, 100, 100);
 		}
 	}
-	
+
 	for (var y = 0; y < 900; y += 100) {
 		for (var x = 100; x < 1000; x += 100) {
 			ctx.beginPath();
-			ctx.strokeStyle = "rgba(255, 255, 255, 0.4)"; 
+			ctx.strokeStyle = "rgba(255, 255, 255, 0.4)";
 			ctx.lineWidth = "4";
 			ctx.arc(x, y, 30, 0, Math.PI*2, false);
 			ctx.fill;
@@ -193,7 +193,7 @@ function ol() {
 </script>
 </head>
 <body onload="ol()">
-	
+
 <canvas id="c" width="1024" height="768" style="top:0px; left:0px; width: 1024px; height: 768px; z-index: 1;"></canvas>
 <object id="tuio" type="application/x-tuio">Plugin FAILED to load</object>
 
